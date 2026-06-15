@@ -1,12 +1,33 @@
 const fs=require('fs'),path=require('path'),today=new Date().toISOString().slice(0,10),slug=today;
-const feed=JSON.parse(fs.readFileSync(path.join(__dirname,'..','feed.json'),'utf8'));
-if(feed.posts.find(p=>p.slug===slug)){console.log('Exists');process.exit(0)}
-const pool=[[["2000元以内性价比最高手机推荐","Redmi Note系列性能均衡、realme GT系列游戏优化好、iQOO Z系列续航强。看处理器不看像素数。","手机推荐"],["笔记本电脑怎么选：轻薄本和游戏本的区别","轻薄本续航好适合办公学习（1.2-1.8kg）、游戏本性能强但重（2.3+kg）、全能本折中（1.6-2.0kg）。","笔记本推荐"],["蓝牙耳机怎么选：入耳式还是头戴式","通勤选TWS入耳便携带降噪、在家选头戴式音质好续航长、运动选挂脖式或骨传导安全。","耳机推荐"]],[["2025年最值得买的5款真无线耳机","索尼降噪最强、Bose舒适度最好、AirPods Pro苹果生态首选、三星Galaxy Buds性价比高、国产品牌千元内够用。","耳机推荐"],["平板电脑有必要买吗：iPad还是安卓","学生做笔记+看PDF首选iPad+iPencil。看视频+轻度办公安卓平板性价比更高。生产力办公还是用笔记本。","平板推荐"],["手机拍照好不好看：不看像素看传感器","传感器大小比像素数重要。算法调教比硬件参数重要。拍照前擦一下镜头提升最大。","手机知识"]],[["智能手表值得买吗：Apple Watch还是手环","主要看消息和运动手环够用了200元内。需要心电图跌倒检测车载功能选Apple Watch。续航焦虑选Garmin。","智能穿戴"],["家用WiFi路由器怎么选：WiFi6和WiFi7的区别","WiFi6目前够用性价比高、WiFi7设备贵且家里宽带可能用不满。Mesh组网解决大户型信号死角。","网络设备"],["机械键盘入门：轴体怎么选","红轴直上直下适合游戏和打字、茶轴有轻微段落感兼顾、青轴段落感强声音大打字爽。国产轴体现在不输Cherry。","外设推荐"]],[["手机充电为什么越来越慢：充电协议要统一","不同品牌快充协议不兼容。PD协议最通用USB-C口都可以。充电线也影响速度要用支持快充的线。","手机知识"],["学生党预算5000怎么配电脑","CPU选i5/R5、显卡3060/4060足够1080P游戏、内存16GB、SSD 1TB。显示器比显卡更容易被人忽略。","装机指南"],["智能音箱：小爱小度天猫精灵选哪个","小米生态选小爱、百度内容多选小度、淘宝购物用天猫精灵。音质HomePod最好但最贵。","智能家居"]],[["手机屏幕保护膜真的有用吗","钢化膜防刮花和屏幕摔碎有一定作用但不是绝对的。疏油层磨掉了触感会变差。贴膜前要彻底清洁屏幕。","手机知识"],["充电宝怎么选：不是容量越大越好","10000mAh够充手机2-3次最实用、20000mAh可以充平板+手机但要能带上飞机（不超过27000mAh）。快充协议要匹配手机。","数码配件"],["Kindle还是纸质书：电子阅读器选购指南","Kindle护眼续航长适合看文字书、iPad适合看PDF和彩色图表。国产阅读器性价比更高（掌阅文石）。","电子书"]],[["路由器WiFi信号不好：换信道可能就解决了","用WiFi分析仪看哪个信道拥挤。2.4GHz选1/6/11不重叠信道。5GHz干扰少但穿墙差","网络知识"],["家里要装监控摄像头：室内和室外的区别","室内选云台可旋转、室外要防水防尘、门铃摄像头选带双向通话的。注意看夜视效果和云存储费用。","智能家居"],["手机壳除了好看还有什么用","防摔是第一位的选有气囊或四角加固的、MagSafe磁吸壳无线充电方便、散热壳打游戏时有用。","手机知识"]],[["二手数码产品购买指南：闲鱼和转转攻略","看卖家信用和评价、价格低于市场太多=假货、要求提供购买凭证或序列号、贵重物品走平台验机服务。","购物指南"],["给孩子买什么学习设备：学习机和iPad怎么选","学习机有家长管控和学习资源、iPad生态好可用的教育App多。小学生选学习机、初中以上选iPad。","教育设备"],["数据线为什么容易坏：正确使用能多用一年","拔插头不要扯线、收纳时打圈不要折叠、充电头端不要弯折。编织线比普通线耐用。MFi认证线iOS必选。","数码配件"]],[["智能门锁安全吗：选指纹还是人脸","指纹锁性价比最高方便快捷、人脸锁贵但更便捷。选C级锁芯+虚位密码功能。认准公安部检测认证。","智能家居"],["显示器怎么选：办公和游戏参数完全不同","办公看分辨率（4K）+色域（sRGB99%以上）+护眼。游戏看刷新率（144Hz+）+响应时间（1ms）+G-Sync/FreeSync。","外设推荐"],["扫地机器人值得买吗：石头和科沃斯怎么选","有宠物选大吸力、有地毯选自动识别、小户型选扫拖一体。激光导航比视觉导航更准。自动集尘功能很实用。","智能家居"]]];
-const idx=(new Date().getDate()-1)%pool.length,items=pool[idx];
-const postTitle=items[0][2]+' | '+today;
-feed.posts.unshift({slug,date:today,title:postTitle,items:items.map(i=>({title:i[0],desc:i[1],tag:i[2]}))});
+const fp=path.join(__dirname,'..','feed.json');
+const feed=JSON.parse(fs.readFileSync(fp,'utf8'));
+if(!feed.posts)feed.posts=[];
+if(feed.posts.find(p=>p.slug===slug)){console.log('Already exists');process.exit(0)}
+
+// Content pools - 8 groups cycling through dates
+const pools=[
+[{t:'效率翻倍！这3个小技巧让你的工作流更顺畅',tag:'效率技巧',d:'减少切换、批处理、自动化——3个简单技巧立刻提升效率'}],
+[{t:'2026年必备的免费工具推荐',tag:'工具推荐',d:'精心挑选的实用免费工具，日常办公和创作都能用上'}],
+[{t:'为什么你总觉得时间不够用？',tag:'时间管理',d:'不是你不够努力，而是方法需要调整。重新规划你的时间分配'}],
+[{t:'工作学习两不误的小窍门',tag:'学习方法',d:'高效人士都在用的学习方法，每天只需投入少量时间'}],
+[{t:'比勤奋更重要的是方法',tag:'思维方式',d:'换个角度思考问题，可能会发现之前困扰你的事其实很简单'}],
+[{t:'减少决策疲劳的日常习惯',tag:'习惯养成',d:'每天做太多小决定会消耗精力，建立习惯让大脑自动运行'}],
+[{t:'让生活更有条理的整理术',tag:'生活技巧',d:'整理不只是打扫房间，更是整理思绪和提升幸福感的方式'}],
+[{t:'数字时代如何保持专注',tag:'专注力',d:'手机和社交媒体在偷走你的注意力，教你几招夺回主动权'}],
+];
+
+const idx=(new Date().getDate()-1)%pools.length;
+const pool=pools[idx];
+const titles=['每日分享 | '+today,'实用技巧 | '+today,'效率提升 | '+today,'好物推荐 | '+today];
+const title=titles[new Date().getDate()%titles.length];
+
+feed.posts.unshift({slug,date:today,title:title,items:pool});
 feed.updated=today;
-fs.writeFileSync(path.join(__dirname,'..','feed.json'),JSON.stringify(feed,null,2));
-const html='<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>'+postTitle+'</title><style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}:root{--bg:#fafafa;--card:#fff;--text:#1a1a2e;--t2:#666;--accent:#2563eb;--border:#e5e7eb;--r:10px}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC",sans-serif;background:var(--bg);color:var(--text);line-height:1.7}.container{max-width:800px;margin:0 auto;padding:0 20px}header{background:var(--card);border-bottom:1px solid var(--border);padding:20px 0;margin-bottom:32px}header a{color:var(--accent);text-decoration:none;font-size:.9rem}header h1{font-size:1.3rem;margin-top:8px}.post{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:28px}.post .date{color:var(--t2);font-size:.8rem;margin-bottom:20px}.entry{margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border)}.entry:last-child{border-bottom:none}.entry h3{font-size:1rem;margin-bottom:4px}.entry p{color:var(--t2);font-size:.9rem}.tag{display:inline-block;font-size:.72rem;padding:2px 8px;border-radius:10px;margin-left:6px;background:var(--bg);color:var(--accent)}footer{text-align:center;padding:32px 20px;color:var(--t2);font-size:.8rem}@media(max-width:600px){.post{padding:18px}}</style></head><body><header><div class="container"><a href="../index.html">← 首页</a><h1>'+postTitle+'</h1></div></header><main class="container"><article class="post"><div class="date">📅 '+today+'</div>'+items.map(i=>'<div class="entry"><h3>'+i[0]+' <span class="tag">'+i[2]+'</span></h3><p>'+i[1]+'</p></div>').join('')+'</article></main><footer><p>每日更新</p></footer></body></html>';
-fs.writeFileSync(path.join(__dirname,'..','posts',slug+'.html'),html);
-console.log('OK');
+fs.writeFileSync(fp,JSON.stringify(feed,null,2));
+
+// Create post HTML
+const dir=path.join(__dirname,'..','posts');
+if(!fs.existsSync(dir))fs.mkdirSync(dir,{recursive:true});
+const h=`<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>${title}</title><meta name="description" content="${pool.map(i=>i.t).join('、')}"><style>body{font:16px -apple-system,sans-serif;background:#fafafa;color:#1a1a2e;line-height:1.8;margin:0;padding:16px}.c{max-width:700px;margin:0 auto}article{background:#fff;padding:24px;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}h1{font-size:1.3rem;margin:0 0 4px}.date{font-size:.8rem;color:#666;margin-bottom:20px}.item{margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid #eee}.item h2{font-size:1rem;margin:0 0 4px}.item p{font-size:.88rem;color:#555}.tag{display:inline-block;background:#eff6ff;color:#2563eb;font-size:.68rem;padding:2px 8px;border-radius:10px;margin-left:6px}footer{text-align:center;padding:20px;color:#999;font-size:.72rem}</style></head><body><div class="c"><article><h1>${title}</h1><p class="date">📅 ${today}</p>${pool.map(i=>'<div class="item"><h2>'+i.t+' <span class="tag">'+i.tag+'</span></h2><p>'+i.d+'</p></div>').join('')}</article></div><footer>每日自动更新</footer></body></html>`;
+fs.writeFileSync(path.join(dir,slug+'.html'),h);
+console.log('Generated:',title);
